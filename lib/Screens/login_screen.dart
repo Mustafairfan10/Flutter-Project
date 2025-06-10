@@ -35,7 +35,8 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final loc = S.of(context); // Use S here, not AppLocalizations
+    final loc = S.of(context);
+    final currentLangCode = Localizations.localeOf(context).languageCode;
 
     return Scaffold(
       backgroundColor: Colors.deepOrange.shade50,
@@ -65,14 +66,18 @@ class _LoginScreenState extends State<LoginScreen> {
                   onPressed: _toggleLanguage,
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.deepOrange,
+                    foregroundColor: Colors.white,
                     padding: const EdgeInsets.symmetric(
                       vertical: 8,
                       horizontal: 24,
                     ),
                   ),
                   child: Text(
-                    loc.language,
-                    style: const TextStyle(fontSize: 16),
+                    currentLangCode == 'ar' ? 'إنجليزي' : 'EN',
+                    style: const TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ),
                 const SizedBox(height: 16),
@@ -106,6 +111,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     onPressed: _login,
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.deepOrange,
+                      foregroundColor: Colors.white,
                       padding: const EdgeInsets.symmetric(vertical: 16),
                     ),
                     child: Text(

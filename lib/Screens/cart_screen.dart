@@ -7,7 +7,7 @@ class CartScreen extends StatelessWidget {
   const CartScreen({Key? key, required this.cart}) : super(key: key);
 
   double get totalPrice =>
-      cart.fold(0, (sum, item) => sum + (item['price'] as double));
+      cart.fold(0, (sum, item) => sum + ((item['price'] ?? 0) as double));
 
   @override
   Widget build(BuildContext context) {
@@ -31,12 +31,16 @@ class CartScreen extends StatelessWidget {
                       final item = cart[index];
                       return ListTile(
                         leading: Image.network(
-                          item['image'],
+                          item['image'] ?? '',
                           width: 50,
                           height: 50,
+                          errorBuilder: (_, __, ___) =>
+                              const Icon(Icons.image_not_supported),
                         ),
-                        title: Text(item['name']),
-                        trailing: Text('\$${item['price'].toStringAsFixed(2)}'),
+                        title: Text(item['localizedName'] ?? 'Unknown Item'),
+                        trailing: Text(
+                          '\$${(item['price'] ?? 0).toStringAsFixed(2)}',
+                        ),
                       );
                     },
                   ),
@@ -67,6 +71,7 @@ class CartScreen extends StatelessWidget {
                         },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.deepOrange,
+                          foregroundColor: Colors.white, // <-- white text here
                         ),
                         child: Text(loc.checkout),
                       ),

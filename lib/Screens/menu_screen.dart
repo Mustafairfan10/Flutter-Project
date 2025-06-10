@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
-import '../generated/l10n.dart'; // Import localization
+import '../generated/l10n.dart'; // Localization
 import 'cart_screen.dart';
 
 class MenuScreen extends StatefulWidget {
@@ -20,19 +20,19 @@ class _MenuScreenState extends State<MenuScreen> {
 
   final List<Map<String, dynamic>> menuItems = [
     {
-      'name': 'Pizza Margherita',
+      'nameKey': 'pizzaMargherita',
       'price': 8.5,
       'image':
           'https://cdn.pixabay.com/photo/2017/12/10/14/47/pizza-3010062_960_720.jpg',
     },
     {
-      'name': 'Veggie Burger',
+      'nameKey': 'veggieBurger',
       'price': 6.0,
       'image':
           'https://cdn.pixabay.com/photo/2017/04/24/22/12/asparagus-2258013_960_720.jpg',
     },
     {
-      'name': 'Pasta Carbonara',
+      'nameKey': 'pastaCarbonara',
       'price': 7.0,
       'image':
           'https://cdn.pixabay.com/photo/2017/02/12/12/05/food-2059852_1280.jpg',
@@ -67,12 +67,12 @@ class _MenuScreenState extends State<MenuScreen> {
     super.dispose();
   }
 
-  void addToCart(Map<String, dynamic> item) {
+  void addToCart(Map<String, dynamic> item, String localizedName) {
     setState(() {
-      cart.add(item);
+      cart.add({...item, 'localizedName': localizedName});
     });
     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text('${item['name']} ${S.of(context).addedToCart}')),
+      SnackBar(content: Text(S.of(context).addedToCart(localizedName))),
     );
   }
 
@@ -130,118 +130,146 @@ class _MenuScreenState extends State<MenuScreen> {
     );
   }
 
+  String _getLocalizedMenuName(String key, S loc) {
+    switch (key) {
+      case 'pizzaMargherita':
+        return loc.pizzaMargherita;
+      case 'veggieBurger':
+        return loc.veggieBurger;
+      case 'pastaCarbonara':
+        return loc.pastaCarbonara;
+      default:
+        return key;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    final loc = S.of(context); // get localization here
+    final loc = S.of(context);
+    final locale = Localizations.localeOf(context);
 
-    return Scaffold(
-      // Background video
-      body: Stack(
-        children: [
-          _videoController.value.isInitialized
-              ? SizedBox.expand(
-                  child: FittedBox(
-                    fit: BoxFit.cover,
-                    child: SizedBox(
-                      width: _videoController.value.size.width,
-                      height: _videoController.value.size.height,
-                      child: VideoPlayer(_videoController),
+    return Directionality(
+      textDirection: locale.languageCode == 'ar'
+          ? TextDirection.rtl
+          : TextDirection.ltr,
+      child: Scaffold(
+        // Background video
+        body: Stack(
+          children: [
+            _videoController.value.isInitialized
+                ? SizedBox.expand(
+                    child: FittedBox(
+                      fit: BoxFit.cover,
+                      child: SizedBox(
+                        width: _videoController.value.size.width,
+                        height: _videoController.value.size.height,
+                        child: VideoPlayer(_videoController),
+                      ),
+                    ),
+                  )
+                : Container(color: Colors.black),
+            Container(color: Colors.black.withOpacity(0.5)),
+            SafeArea(
+              child: Column(
+                children: [
+                  const SizedBox(height: 12),
+                  buildCarousel(),
+                  const SizedBox(height: 24),
+                  Expanded(
+                    child: ListView.builder(
+                      itemCount: menuItems.length,
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      itemBuilder: (context, index) {
+                        final item = menuItems[index];
+                        final localizedName = _getLocalizedMenuName(
+                          item['nameKey'],
+                          loc,
+                        );
+                        return Card(
+                          margin: const EdgeInsets.only(bottom: 16),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(16),
+                          ),
+                          child: ListTile(
+                            contentPadding: const EdgeInsets.all(16),
+                            leading: ClipRRect(
+                              borderRadius: BorderRadius.circular(12),
+                              child: Image.network(
+                                item['image'],
+                                width: 80,
+                                height: 80,
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                            title: Text(
+                              localizedName,
+                              style: const TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 20,
+                              ),
+                            ),
+                            subtitle: Text(
+                              '\$${item['price'].toStringAsFixed(2)}',
+                            ),
+                            trailing: ElevatedButton(
+                              onPressed: () => addToCart(item, localizedName),
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.deepOrange,
+                                foregroundColor:
+                                    Colors.white, // text color white
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 20,
+                                  vertical: 12,
+                                ),
+                              ),
+                              child: Text(loc.add),
+                            ),
+                          ),
+                        );
+                      },
                     ),
                   ),
-                )
-              : Container(color: Colors.black),
-          Container(color: Colors.black.withOpacity(0.5)),
-          SafeArea(
-            child: Column(
+                ],
+              ),
+            ),
+          ],
+        ),
+        appBar: AppBar(
+          title: Text(loc.menu),
+          backgroundColor: Colors.deepOrange,
+          actions: [
+            Stack(
               children: [
-                const SizedBox(height: 12),
-                buildCarousel(),
-                const SizedBox(height: 24),
-                Expanded(
-                  child: ListView.builder(
-                    itemCount: menuItems.length,
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
-                    itemBuilder: (context, index) {
-                      final item = menuItems[index];
-                      return Card(
-                        margin: const EdgeInsets.only(bottom: 16),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(16),
-                        ),
-                        child: ListTile(
-                          contentPadding: const EdgeInsets.all(16),
-                          leading: ClipRRect(
-                            borderRadius: BorderRadius.circular(12),
-                            child: Image.network(
-                              item['image'],
-                              width: 80,
-                              height: 80,
-                              fit: BoxFit.cover,
-                            ),
-                          ),
-                          title: Text(
-                            item['name'],
-                            style: const TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 20,
-                            ),
-                          ),
-                          subtitle: Text(
-                            '\$${item['price'].toStringAsFixed(2)}',
-                          ),
-                          trailing: ElevatedButton(
-                            onPressed: () => addToCart(item),
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.deepOrange,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(12),
-                              ),
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 20,
-                                vertical: 12,
-                              ),
-                            ),
-                            child: Text(loc.add),
-                          ),
-                        ),
-                      );
-                    },
-                  ),
+                IconButton(
+                  icon: const Icon(Icons.shopping_cart),
+                  onPressed: navigateToCart,
                 ),
+                if (cart.isNotEmpty)
+                  Positioned(
+                    right: 6,
+                    top: 6,
+                    child: Container(
+                      padding: const EdgeInsets.all(2),
+                      decoration: const BoxDecoration(
+                        color: Colors.red,
+                        shape: BoxShape.circle,
+                      ),
+                      child: Text(
+                        '${cart.length}',
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 12,
+                        ),
+                      ),
+                    ),
+                  ),
               ],
             ),
-          ),
-        ],
-      ),
-      appBar: AppBar(
-        title: Text(loc.menu),
-        backgroundColor: Colors.deepOrange,
-        actions: [
-          Stack(
-            children: [
-              IconButton(
-                icon: const Icon(Icons.shopping_cart),
-                onPressed: navigateToCart,
-              ),
-              if (cart.isNotEmpty)
-                Positioned(
-                  right: 6,
-                  top: 6,
-                  child: Container(
-                    padding: const EdgeInsets.all(2),
-                    decoration: const BoxDecoration(
-                      color: Colors.red,
-                      shape: BoxShape.circle,
-                    ),
-                    child: Text(
-                      '${cart.length}',
-                      style: const TextStyle(color: Colors.white, fontSize: 12),
-                    ),
-                  ),
-                ),
-            ],
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

@@ -37,6 +37,8 @@ class MessageLookup extends MessageLookupByLibrary {
     "login": MessageLookupByLibrary.simpleMessage("Login"),
     "menu": MessageLookupByLibrary.simpleMessage("Menu"),
     "password": MessageLookupByLibrary.simpleMessage("Password"),
+    "pastaCarbonara": MessageLookupByLibrary.simpleMessage("Pasta Carbonara"),
+    "pizzaMargherita": MessageLookupByLibrary.simpleMessage("Pizza Margherita"),
     "pleaseEnterEmail": MessageLookupByLibrary.simpleMessage(
       "Please enter email",
     ),
@@ -44,6 +46,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "Please enter password",
     ),
     "total": MessageLookupByLibrary.simpleMessage("Total"),
+    "veggieBurger": MessageLookupByLibrary.simpleMessage("Veggie Burger"),
     "yourCart": MessageLookupByLibrary.simpleMessage("Your Cart"),
   };
 }

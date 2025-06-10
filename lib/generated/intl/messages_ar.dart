@@ -37,6 +37,8 @@ class MessageLookup extends MessageLookupByLibrary {
     "login": MessageLookupByLibrary.simpleMessage("تسجيل الدخول"),
     "menu": MessageLookupByLibrary.simpleMessage("القائمة"),
     "password": MessageLookupByLibrary.simpleMessage("كلمة المرور"),
+    "pastaCarbonara": MessageLookupByLibrary.simpleMessage("باستا كاربونارا"),
+    "pizzaMargherita": MessageLookupByLibrary.simpleMessage("بيتزا مارغريتا"),
     "pleaseEnterEmail": MessageLookupByLibrary.simpleMessage(
       "يرجى إدخال البريد الإلكتروني",
     ),
@@ -44,6 +46,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "يرجى إدخال كلمة المرور",
     ),
     "total": MessageLookupByLibrary.simpleMessage("الإجمالي"),
+    "veggieBurger": MessageLookupByLibrary.simpleMessage("برغر نباتي"),
     "yourCart": MessageLookupByLibrary.simpleMessage("سلة التسوق الخاصة بك"),
   };
 }

@@ -104,6 +104,36 @@ class S {
     return Intl.message('Menu', name: 'menu', desc: '', args: []);
   }
 
+  /// `Pizza Margherita`
+  String get pizzaMargherita {
+    return Intl.message(
+      'Pizza Margherita',
+      name: 'pizzaMargherita',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Veggie Burger`
+  String get veggieBurger {
+    return Intl.message(
+      'Veggie Burger',
+      name: 'veggieBurger',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Pasta Carbonara`
+  String get pastaCarbonara {
+    return Intl.message(
+      'Pasta Carbonara',
+      name: 'pastaCarbonara',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Add`
   String get add {
     return Intl.message('Add', name: 'add', desc: '', args: []);
