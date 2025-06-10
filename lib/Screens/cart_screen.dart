@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../generated/l10n.dart'; // Import localization
 
 class CartScreen extends StatelessWidget {
   final List<Map<String, dynamic>> cart;
@@ -10,17 +11,16 @@ class CartScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final loc = S.of(context);
+
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Your Cart'),
+        title: Text(loc.yourCart),
         backgroundColor: Colors.deepOrange,
       ),
       body: cart.isEmpty
-          ? const Center(
-              child: Text(
-                'Your cart is empty.',
-                style: TextStyle(fontSize: 18),
-              ),
+          ? Center(
+              child: Text(loc.cartEmpty, style: const TextStyle(fontSize: 18)),
             )
           : Column(
               children: [
@@ -53,7 +53,7 @@ class CartScreen extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        'Total: \$${totalPrice.toStringAsFixed(2)}',
+                        '${loc.total}: \$${totalPrice.toStringAsFixed(2)}',
                         style: const TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 18,
@@ -62,15 +62,13 @@ class CartScreen extends StatelessWidget {
                       ElevatedButton(
                         onPressed: () {
                           ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              content: Text('Checkout not implemented'),
-                            ),
+                            SnackBar(content: Text(loc.checkoutNotImplemented)),
                           );
                         },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.deepOrange,
                         ),
-                        child: const Text('Checkout'),
+                        child: Text(loc.checkout),
                       ),
                     ],
                   ),

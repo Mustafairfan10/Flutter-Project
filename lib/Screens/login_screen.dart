@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import '../main.dart'; // To access MyApp state
+import '../generated/l10n.dart'; // Localization
 import 'menu_screen.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -20,8 +22,21 @@ class _LoginScreenState extends State<LoginScreen> {
     }
   }
 
+  void _toggleLanguage() {
+    final appState = MyApp.of(context);
+    if (appState != null) {
+      if (Localizations.localeOf(context).languageCode == 'en') {
+        appState.setLocale(const Locale('ar'));
+      } else {
+        appState.setLocale(const Locale('en'));
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    final loc = S.of(context); // Use S here, not AppLocalizations
+
     return Scaffold(
       backgroundColor: Colors.deepOrange.shade50,
       body: Center(
@@ -38,33 +53,51 @@ class _LoginScreenState extends State<LoginScreen> {
                   color: Colors.deepOrange,
                 ),
                 const SizedBox(height: 16),
-                const Text(
-                  'Food Booking App',
-                  style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
+                Text(
+                  loc.appTitle,
+                  style: const TextStyle(
+                    fontSize: 28,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
-                const SizedBox(height: 32),
+                const SizedBox(height: 16),
+                ElevatedButton(
+                  onPressed: _toggleLanguage,
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.deepOrange,
+                    padding: const EdgeInsets.symmetric(
+                      vertical: 8,
+                      horizontal: 24,
+                    ),
+                  ),
+                  child: Text(
+                    loc.language,
+                    style: const TextStyle(fontSize: 16),
+                  ),
+                ),
+                const SizedBox(height: 16),
                 TextFormField(
-                  decoration: const InputDecoration(
-                    labelText: 'Email',
-                    prefixIcon: Icon(Icons.email),
-                    border: OutlineInputBorder(),
+                  decoration: InputDecoration(
+                    labelText: loc.email,
+                    prefixIcon: const Icon(Icons.email),
+                    border: const OutlineInputBorder(),
                   ),
                   keyboardType: TextInputType.emailAddress,
                   onChanged: (val) => email = val,
                   validator: (val) =>
-                      val!.isEmpty ? 'Please enter email' : null,
+                      val!.isEmpty ? loc.pleaseEnterEmail : null,
                 ),
                 const SizedBox(height: 16),
                 TextFormField(
-                  decoration: const InputDecoration(
-                    labelText: 'Password',
-                    prefixIcon: Icon(Icons.lock),
-                    border: OutlineInputBorder(),
+                  decoration: InputDecoration(
+                    labelText: loc.password,
+                    prefixIcon: const Icon(Icons.lock),
+                    border: const OutlineInputBorder(),
                   ),
                   obscureText: true,
                   onChanged: (val) => password = val,
                   validator: (val) =>
-                      val!.isEmpty ? 'Please enter password' : null,
+                      val!.isEmpty ? loc.pleaseEnterPassword : null,
                 ),
                 const SizedBox(height: 24),
                 SizedBox(
@@ -75,7 +108,10 @@ class _LoginScreenState extends State<LoginScreen> {
                       backgroundColor: Colors.deepOrange,
                       padding: const EdgeInsets.symmetric(vertical: 16),
                     ),
-                    child: const Text('Login', style: TextStyle(fontSize: 18)),
+                    child: Text(
+                      loc.login,
+                      style: const TextStyle(fontSize: 18),
+                    ),
                   ),
                 ),
               ],

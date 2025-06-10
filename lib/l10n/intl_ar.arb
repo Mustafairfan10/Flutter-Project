@@ -1,0 +1,24 @@
+{
+  "@@locale": "ar",
+  "appTitle": "تطبيق طلب الطعام",
+  "login": "تسجيل الدخول",
+  "email": "البريد الإلكتروني",
+  "password": "كلمة المرور",
+  "pleaseEnterEmail": "يرجى إدخال البريد الإلكتروني",
+  "pleaseEnterPassword": "يرجى إدخال كلمة المرور",
+  "menu": "القائمة",
+  "add": "أضف",
+  "yourCart": "سلة التسوق الخاصة بك",
+  "cartEmpty": "سلة التسوق فارغة.",
+  "total": "الإجمالي",
+  "checkout": "الدفع",
+  "checkoutNotImplemented": "الدفع غير متوفر حاليا",
+  "language": "اللغة",
+  "addedToCart": "تمت إضافة {item} إلى السلة",
+  "@addedToCart": {
+    "description": "رسالة Snackbar عند إضافة عنصر إلى السلة",
+    "placeholders": {
+      "item": {}
+    }
+  }
+}

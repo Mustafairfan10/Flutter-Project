@@ -1,0 +1,24 @@
+{
+  "@@locale": "en",
+  "appTitle": "Food Booking App",
+  "login": "Login",
+  "email": "Email",
+  "password": "Password",
+  "pleaseEnterEmail": "Please enter email",
+  "pleaseEnterPassword": "Please enter password",
+  "menu": "Menu",
+  "add": "Add",
+  "yourCart": "Your Cart",
+  "cartEmpty": "Your cart is empty.",
+  "total": "Total",
+  "checkout": "Checkout",
+  "checkoutNotImplemented": "Checkout not implemented",
+  "language": "Language",
+  "addedToCart": "{item} added to cart",
+  "@addedToCart": {
+    "description": "Snackbar message when an item is added to the cart",
+    "placeholders": {
+      "item": {}
+    }
+  }
+}

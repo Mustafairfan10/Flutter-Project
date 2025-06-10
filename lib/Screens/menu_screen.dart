@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
+import '../generated/l10n.dart'; // Import localization
 import 'cart_screen.dart';
 
 class MenuScreen extends StatefulWidget {
@@ -70,9 +71,9 @@ class _MenuScreenState extends State<MenuScreen> {
     setState(() {
       cart.add(item);
     });
-    ScaffoldMessenger.of(
-      context,
-    ).showSnackBar(SnackBar(content: Text('${item['name']} added to cart')));
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text('${item['name']} ${S.of(context).addedToCart}')),
+    );
   }
 
   void navigateToCart() {
@@ -131,6 +132,8 @@ class _MenuScreenState extends State<MenuScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final loc = S.of(context); // get localization here
+
     return Scaffold(
       // Background video
       body: Stack(
@@ -198,7 +201,7 @@ class _MenuScreenState extends State<MenuScreen> {
                                 vertical: 12,
                               ),
                             ),
-                            child: const Text('Add'),
+                            child: Text(loc.add),
                           ),
                         ),
                       );
@@ -211,7 +214,7 @@ class _MenuScreenState extends State<MenuScreen> {
         ],
       ),
       appBar: AppBar(
-        title: const Text('Menu'),
+        title: Text(loc.menu),
         backgroundColor: Colors.deepOrange,
         actions: [
           Stack(
